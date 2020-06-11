@@ -38,6 +38,8 @@ export class ReactScreenshotTest {
 
   private readonly _remoteStylesheetUrls: string[] = [];
 
+  private readonly _remoteJavascriptUrls: string[] = [];
+
   private readonly _staticPaths: Record<string, string> = {};
 
   private ran = false;
@@ -97,6 +99,11 @@ export class ReactScreenshotTest {
 
   remoteStylesheet(stylesheetUrl: string) {
     this._remoteStylesheetUrls.push(stylesheetUrl);
+    return this;
+  }
+
+  remoteJavascript(javascriptUrls: string) {
+    this._remoteJavascriptUrls.push(javascriptUrls);
     return this;
   }
 
@@ -174,6 +181,7 @@ export class ReactScreenshotTest {
                   name,
                   reactNode: shot,
                   remoteStylesheetUrls: this._remoteStylesheetUrls,
+                  remoteJavascriptUrls: this._remoteJavascriptUrls,
                 },
                 async (port, path) => {
                   const url =
