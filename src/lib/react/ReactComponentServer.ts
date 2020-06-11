@@ -91,6 +91,12 @@ export class ReactComponentServer {
                 href: url,
               })
             ),
+            ...node.remoteJavascriptUrls.map((src) =>
+                React.createElement("script", {
+                  src,
+                  type: "application/javascript",
+                })
+            ),
             React.createElement("style", {
               dangerouslySetInnerHTML: { __html: readRecordedCss() },
             }),
@@ -124,6 +130,12 @@ export class ReactComponentServer {
               rel: "stylesheet",
               href: url,
             })
+          ),
+          ...node.remoteJavascriptUrls.map((src) =>
+              React.createElement("script", {
+                src,
+                type: "application/javascript",
+              })
           ),
           React.createElement("style", {
             dangerouslySetInnerHTML: { __html: readRecordedCss() },
@@ -199,4 +211,5 @@ export interface NodeDescription {
   name: string;
   reactNode: React.ReactNode;
   remoteStylesheetUrls: string[];
+  remoteJavascriptUrls: string[];
 }

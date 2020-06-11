@@ -42,7 +42,7 @@ export class PuppeteerScreenshotRenderer implements ScreenshotRenderer {
     if (viewport) {
       await page.setViewport(viewport);
     }
-    await page.goto(url);
+    await page.goto(url, { timeout: 300 });
     const screenshot = await page.screenshot({
       encoding: "binary",
     });
