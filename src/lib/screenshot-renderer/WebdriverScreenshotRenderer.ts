@@ -54,6 +54,7 @@ export class SeleniumScreenshotRenderer implements ScreenshotRenderer {
         "Browser is not open! Please make sure that start() was called."
       );
     }
+    // @ts-ignore
     await this.browser.closeWindow();
     if (this.seleniumProcess) {
       // Kill Selenium server.
@@ -73,7 +74,9 @@ export class SeleniumScreenshotRenderer implements ScreenshotRenderer {
         viewport.isLandscape ? viewport.width : viewport.height
       );
     }
+    // @ts-ignore
     await this.browser.navigateTo(url);
+    // @ts-ignore
     return Buffer.from(await this.browser.takeScreenshot(), "base64");
   }
 }
