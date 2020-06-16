@@ -1,7 +1,7 @@
-import { Viewport } from "puppeteer";
 import { Browser, launchChrome } from "../browser/chrome";
 import { ScreenshotRenderer } from "./api";
 import { debugLogger } from "../logger";
+import { Settings } from './PuppeteerScreenshotRenderer';
 
 const logDebug = debugLogger("PercyScreenshotRenderer");
 
@@ -33,7 +33,8 @@ export class PercyScreenshotRenderer implements ScreenshotRenderer {
     }
   }
 
-  async render(name: string, url: string, viewport?: Viewport) {
+  async render(name: string, url: string, settings: Settings = {}) {
+    const { viewport } = settings;
     logDebug(`render() invoked with (name = ${name}, url = ${url}).`);
 
     if (!this.browser) {

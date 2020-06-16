@@ -5,6 +5,8 @@
  * Chrome within Docker to ensure screenshots are consistent even when tests are
  * run from a different platform (e.g. Mac OS).
  */
+import { Settings } from './PuppeteerScreenshotRenderer';
+
 export interface ScreenshotRenderer {
   start(): Promise<void>;
   stop(): Promise<void>;
@@ -16,7 +18,7 @@ export interface ScreenshotRenderer {
   render(
     name: string,
     url: string,
-    viewport?: Viewport
+    settings: Settings,
   ): Promise<Buffer | null>;
 }
 

@@ -44,6 +44,10 @@ export class ReactScreenshotTest {
 
   private ran = false;
 
+  private _awaitScreenshotTime: number = 0;
+
+  private _waitUntilResponses: string[] = [];
+
   /**
    * Creates a screenshot test.
    */
@@ -102,8 +106,18 @@ export class ReactScreenshotTest {
     return this;
   }
 
+  awaitResponses(responses: string[]) {
+    this._waitUntilResponses = responses;
+    return this;
+  }
+
   remoteJavascript(javascriptUrls: string) {
     this._remoteJavascriptUrls.push(javascriptUrls);
+    return this;
+  }
+
+  setAwait(awaitTime: number) {
+    this._awaitScreenshotTime = awaitTime;
     return this;
   }
 
@@ -196,6 +210,7 @@ export class ReactScreenshotTest {
               if (screenshot) {
                 logDebug(`Comparing screenshot.`);
                 expect(screenshot).toMatchImageSnapshot({
+                  failureThreshold: 0.1,
                   customSnapshotsDir: join(
                     snapshotsDir,
                     "__screenshots__",
@@ -224,6 +239,8 @@ export class ReactScreenshotTest {
         name,
         url,
         viewport,
+        awaitTime: this._awaitScreenshotTime,
+        waitUntilResponses: this._waitUntilResponses,
       });
       logDebug(`Response received with status code ${response.status}.`);
       if (response.status === 204) {

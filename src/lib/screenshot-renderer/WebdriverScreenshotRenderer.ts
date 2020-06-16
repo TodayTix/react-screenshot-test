@@ -1,8 +1,9 @@
 import { ChildProcess } from "child_process";
 import selenium from "selenium-standalone";
 import * as webdriverio from "webdriverio";
-import { ScreenshotRenderer, Viewport } from "./api";
+import { ScreenshotRenderer } from "./api";
 import { debugLogger } from "../logger";
+import { Settings } from './PuppeteerScreenshotRenderer';
 
 const logDebug = debugLogger("SeleniumScreenshotRenderer");
 
@@ -62,7 +63,8 @@ export class SeleniumScreenshotRenderer implements ScreenshotRenderer {
     }
   }
 
-  async render(name: string, url: string, viewport?: Viewport) {
+  async render(name: string, url: string, settings: Settings = {}) {
+    const { viewport } = settings;
     logDebug(`render() invoked with (name = ${name}, url = ${url}).`);
 
     if (!this.browser) {
