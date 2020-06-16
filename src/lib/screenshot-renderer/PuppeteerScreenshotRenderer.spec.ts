@@ -102,8 +102,10 @@ describe("PuppeteerScreenshotRenderer", () => {
       const renderer = new PuppeteerScreenshotRenderer();
       await renderer.start();
       await renderer.render("test", "http://example.com", {
-        width: 1024,
-        height: 768,
+        viewport: {
+          width: 1024,
+          height: 768,
+        }
       });
       expect(mockPage.setViewport).toHaveBeenCalledWith({
         width: 1024,
