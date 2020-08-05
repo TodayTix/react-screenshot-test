@@ -42,6 +42,10 @@ export class ReactScreenshotTest {
 
   private readonly _staticPaths: Record<string, string> = {};
 
+  private readonly _onPageLoadedCallbacks: {
+    [name: string]: () => Promise<any> | undefined;
+  } = {};
+
   private ran = false;
 
   /**
@@ -86,13 +90,15 @@ export class ReactScreenshotTest {
   /**
    * Adds a specific shot of a component to the screenshot test.
    */
-  shoot(shotName: string, component: React.ReactNode) {
+  shoot(shotName: string, component: React.ReactNode, callback?: () => Promise<any>) {
     if (this.ran) {
       throw new Error("Cannot add a shot after running.");
     }
     if (this._shots[shotName]) {
       throw new Error(`Shot "${shotName}" is declared more than once`);
     }
+
+    this._onPageLoadedCallbacks[shotName] = callback as () => Promise<any>;
     this._shots[shotName] = component;
     return this;
   }
@@ -188,7 +194,7 @@ export class ReactScreenshotTest {
                     SCREENSHOT_MODE === "docker"
                       ? `http://host.docker.internal:${port}${path}`
                       : `http://localhost:${port}${path}`;
-                  return this.render(name, url, viewport);
+                  return this.render(name, url, viewport, this._onPageLoadedCallbacks[shotName]);
                 }
               );
               logDebug(`Screenshot generated.`);
@@ -215,7 +221,7 @@ export class ReactScreenshotTest {
     });
   }
 
-  private async render(name: string, url: string, viewport: Viewport) {
+  private async render(name: string, url: string, viewport: Viewport, cb?: () => any) {
     try {
       logDebug(
         `Initiating request to screenshot server at ${SCREENSHOT_SERVER_URL}.`
@@ -224,6 +230,7 @@ export class ReactScreenshotTest {
         name,
         url,
         viewport,
+        onPageLoaded: cb ? cb.toString() : '',
       });
       logDebug(`Response received with status code ${response.status}.`);
       if (response.status === 204) {

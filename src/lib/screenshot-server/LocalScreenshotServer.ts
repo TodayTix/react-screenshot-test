@@ -30,9 +30,9 @@ export class LocalScreenshotServer implements ScreenshotServer {
     this.app = express();
     this.app.use(bodyParser.json());
     this.app.post("/render", async (req, res) => {
-      const { name, url, viewport } = req.body;
+      const { name, url, viewport, onPageLoaded } = req.body;
       const screenshot = await (viewport
-        ? this.renderer.render(name, url, viewport)
+        ? this.renderer.render(name, url, viewport, onPageLoaded)
         : this.renderer.render(name, url));
       if (screenshot) {
         res.contentType("image/png");
