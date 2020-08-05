@@ -43,7 +43,7 @@ export class ReactScreenshotTest {
   private readonly _staticPaths: Record<string, string> = {};
 
   private readonly _onPageLoadedCallbacks: {
-    [name: string]: () => Promise<any> | undefined;
+    [name: string]: () => any;
   } = {};
 
   private ran = false;
@@ -90,7 +90,7 @@ export class ReactScreenshotTest {
   /**
    * Adds a specific shot of a component to the screenshot test.
    */
-  shoot(shotName: string, component: React.ReactNode, callback?: () => Promise<any>) {
+  shoot(shotName: string, component: React.ReactNode, callback?: () => any) {
     if (this.ran) {
       throw new Error("Cannot add a shot after running.");
     }
@@ -98,7 +98,7 @@ export class ReactScreenshotTest {
       throw new Error(`Shot "${shotName}" is declared more than once`);
     }
 
-    this._onPageLoadedCallbacks[shotName] = callback as () => Promise<any>;
+    this._onPageLoadedCallbacks[shotName] = callback as any;
     this._shots[shotName] = component;
     return this;
   }
@@ -176,6 +176,8 @@ export class ReactScreenshotTest {
       for (const [viewportName, viewport] of Object.entries(this._viewports)) {
         describe(viewportName, () => {
           for (const [shotName, shot] of Object.entries(this._shots)) {
+            console.log(shot)
+
             it(shotName, async () => {
               const name = `${this.componentName} - ${viewportName} - ${shotName}`;
 
