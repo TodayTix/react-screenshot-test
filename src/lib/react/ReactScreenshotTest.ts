@@ -12,6 +12,7 @@ import {
   SCREENSHOT_SERVER_URL,
 } from "../screenshot-server/config";
 import { ReactComponentServer } from "./ReactComponentServer";
+import { Page } from "puppeteer";
 
 const logDebug = debugLogger("ReactScreenshotTest");
 
@@ -43,7 +44,7 @@ export class ReactScreenshotTest {
   private readonly _staticPaths: Record<string, string> = {};
 
   private readonly _onPageLoadedCallbacks: {
-    [name: string]: () => any;
+    [name: string]: (page: Page) => any;
   } = {};
 
   private ran = false;
@@ -90,7 +91,7 @@ export class ReactScreenshotTest {
   /**
    * Adds a specific shot of a component to the screenshot test.
    */
-  shoot(shotName: string, component: React.ReactNode, callback?: () => any) {
+  shoot(shotName: string, component: React.ReactNode, callback?: (page: Page) => any) {
     if (this.ran) {
       throw new Error("Cannot add a shot after running.");
     }
@@ -223,7 +224,7 @@ export class ReactScreenshotTest {
     });
   }
 
-  private async render(name: string, url: string, viewport: Viewport, cb?: () => any) {
+  private async render(name: string, url: string, viewport: Viewport, cb?: (page: Page) => any) {
     try {
       logDebug(
         `Initiating request to screenshot server at ${SCREENSHOT_SERVER_URL}.`
