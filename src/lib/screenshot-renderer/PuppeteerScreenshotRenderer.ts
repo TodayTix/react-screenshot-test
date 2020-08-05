@@ -32,7 +32,7 @@ export class PuppeteerScreenshotRenderer implements ScreenshotRenderer {
     logDebug(`Chrome browser closed.`);
   }
 
-  async render(name: string, url: string, viewport?: Viewport) {
+  async render(name: string, url: string, viewport?: Viewport, cb?: string) {
     logDebug(`render() invoked with (name = ${name}, url = ${url}).`);
 
     if (!this.browser) {
@@ -42,7 +42,14 @@ export class PuppeteerScreenshotRenderer implements ScreenshotRenderer {
     if (viewport) {
       await page.setViewport(viewport);
     }
-    await page.goto(url, { timeout: 300 });
+    await page.goto(url);
+
+    if (cb) {
+      const parsedFunction = new Function(`return ${cb}`)();
+
+      await parsedFunction(page);
+    }
+
     const screenshot = await page.screenshot({
       encoding: "binary",
     });

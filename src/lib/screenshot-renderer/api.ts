@@ -16,7 +16,8 @@ export interface ScreenshotRenderer {
   render(
     name: string,
     url: string,
-    viewport?: Viewport
+    viewport?: Viewport,
+    onPageLoaded?: string,
   ): Promise<Buffer | null>;
 }
 
