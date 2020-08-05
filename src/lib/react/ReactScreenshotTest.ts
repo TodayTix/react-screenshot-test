@@ -177,8 +177,6 @@ export class ReactScreenshotTest {
       for (const [viewportName, viewport] of Object.entries(this._viewports)) {
         describe(viewportName, () => {
           for (const [shotName, shot] of Object.entries(this._shots)) {
-            console.log(shot)
-
             it(shotName, async () => {
               const name = `${this.componentName} - ${viewportName} - ${shotName}`;
 
