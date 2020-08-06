@@ -203,6 +203,8 @@ export class ReactScreenshotTest {
               if (screenshot) {
                 logDebug(`Comparing screenshot.`);
                 expect(screenshot).toMatchImageSnapshot({
+                  failureThreshold: 0.05,
+                  failureThresholdType: 'percent',
                   customSnapshotsDir: join(
                     snapshotsDir,
                     "__screenshots__",
