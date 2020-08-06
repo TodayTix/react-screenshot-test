@@ -102,8 +102,5 @@ typings/
 # Mac temporary files
 .DS_Store
 
-# Compiled directory
-dist/
-
 # Diff outputs
 __diff_output__
