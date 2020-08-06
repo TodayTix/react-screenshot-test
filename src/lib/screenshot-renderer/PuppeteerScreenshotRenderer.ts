@@ -34,6 +34,7 @@ export class PuppeteerScreenshotRenderer implements ScreenshotRenderer {
 
   async render(name: string, url: string, viewport?: Viewport, cb?: string) {
     logDebug(`render() invoked with (name = ${name}, url = ${url}).`);
+    console.log(`Screenshot run for (name = ${name}, url = ${url}).`)
 
     if (!this.browser) {
       throw new Error("Please call start() once before render().");
@@ -54,6 +55,8 @@ export class PuppeteerScreenshotRenderer implements ScreenshotRenderer {
       encoding: "binary",
     });
     await page.close();
+    console.log(`Screenshot run finished for (name = ${name}, url = ${url}).`);
+
     return screenshot;
   }
 }
