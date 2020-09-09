@@ -67,7 +67,7 @@ export class ReactScreenshotTest {
   }
 
   /**
-   * Adds a set of viewports to the screenshot test.
+   * Set custom options for image snapshot testing.
    */
   setCustomImageSnapshotOptions(options: MatchImageSnapshotOptions) {
     this.customImageSnapshotOptions = { ...options };
