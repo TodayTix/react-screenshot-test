@@ -36,6 +36,7 @@ class ReactScreenshotTest {
         this._staticPaths = {};
         this._onPageLoadedCallbacks = {};
         this.ran = false;
+        this.customImageSnapshotOptions = {};
         setImmediate(() => {
             if (!this.ran) {
                 throw new Error("Please call .run()");
@@ -47,6 +48,13 @@ class ReactScreenshotTest {
      */
     static create(componentName) {
         return new this(componentName);
+    }
+    /**
+     * Adds a set of viewports to the screenshot test.
+     */
+    setCustomImageSnapshotOptions(options) {
+        this.customImageSnapshotOptions = { ...options };
+        return this;
     }
     /**
      * Adds a set of viewports to the screenshot test.
@@ -168,6 +176,7 @@ class ReactScreenshotTest {
                                     failureThresholdType: 'percent',
                                     customSnapshotsDir: path_1.join(snapshotsDir, "__screenshots__", this.componentName, subdirectory),
                                     customSnapshotIdentifier: `${filenamePrefix}${viewportName} - ${shotName}`,
+                                    ...this.customImageSnapshotOptions,
                                 });
                                 logDebug(`Screenshot compared.`);
                             }

@@ -1,7 +1,7 @@
 import callsites from "callsites";
 import chalk from "chalk";
 import { existsSync } from "fs";
-import { toMatchImageSnapshot } from "jest-image-snapshot";
+import { MatchImageSnapshotOptions, toMatchImageSnapshot } from "jest-image-snapshot";
 import { dirname, join, sep } from "path";
 import { debugLogger } from "../logger";
 import { fetch } from "../network/fetch";
@@ -49,6 +49,8 @@ export class ReactScreenshotTest {
 
   private ran = false;
 
+  private customImageSnapshotOptions: MatchImageSnapshotOptions = {};
+
   /**
    * Creates a screenshot test.
    */
@@ -62,6 +64,14 @@ export class ReactScreenshotTest {
         throw new Error("Please call .run()");
       }
     });
+  }
+
+  /**
+   * Adds a set of viewports to the screenshot test.
+   */
+  setCustomImageSnapshotOptions(options: MatchImageSnapshotOptions) {
+    this.customImageSnapshotOptions = { ...options };
+    return this;
   }
 
   /**
@@ -212,6 +222,7 @@ export class ReactScreenshotTest {
                     subdirectory
                   ),
                   customSnapshotIdentifier: `${filenamePrefix}${viewportName} - ${shotName}`,
+                  ...this.customImageSnapshotOptions,
                 });
                 logDebug(`Screenshot compared.`);
               } else {
