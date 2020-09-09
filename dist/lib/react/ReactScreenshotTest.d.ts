@@ -30,7 +30,7 @@ export declare class ReactScreenshotTest {
     static create(componentName: string): ReactScreenshotTest;
     private constructor();
     /**
-     * Adds a set of viewports to the screenshot test.
+     * Set custom options for image snapshot testing.
      */
     setCustomImageSnapshotOptions(options: MatchImageSnapshotOptions): this;
     /**
