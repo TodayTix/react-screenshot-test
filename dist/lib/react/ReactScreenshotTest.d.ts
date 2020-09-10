@@ -1,4 +1,5 @@
 /// <reference types="react" />
+import { MatchImageSnapshotOptions } from "jest-image-snapshot";
 import { Viewport } from "../screenshot-renderer/api";
 import { Page } from "puppeteer";
 /**
@@ -22,11 +23,16 @@ export declare class ReactScreenshotTest {
     private readonly _staticPaths;
     private readonly _onPageLoadedCallbacks;
     private ran;
+    private customImageSnapshotOptions;
     /**
      * Creates a screenshot test.
      */
     static create(componentName: string): ReactScreenshotTest;
     private constructor();
+    /**
+     * Set custom options for image snapshot testing.
+     */
+    setCustomImageSnapshotOptions(options: MatchImageSnapshotOptions): this;
     /**
      * Adds a set of viewports to the screenshot test.
      */
