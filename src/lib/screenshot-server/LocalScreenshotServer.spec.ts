@@ -37,7 +37,8 @@ describe("LocalScreenshotServer", () => {
       {
         with: 1024,
         height: 768,
-      }
+      },
+      undefined
     );
 
     await server.stop();
